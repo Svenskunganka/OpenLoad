@@ -30,7 +30,7 @@ if(!empty($_POST['args'])) {
 		$mysqli->close();
 	}
 	else {
-		$ol = new OpenLoad($sc, $communityid, $steam_api_key, $mapname);
+		$ol = new OpenLoad($sq, $communityid, $steam_api_key, $mapname);
 		$ret = $ol->make();
 		$sq->Disconnect();
 	}
