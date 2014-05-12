@@ -12,6 +12,14 @@
 		<!-- Style -->
 		<link href="templates/strapquery/css/strapquery.css" rel="stylesheet">
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:600' rel='stylesheet' type='text/css'>
+		<!-- jQuery -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<!-- Bootstrap -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<!-- StrapQuery -->
+		<script src="templates/strapquery/js/strapquery.js"></script>
+		<!-- OpenLoad -->
+		<script src="src/js/openload.js"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -19,74 +27,55 @@
 			<div class="row">
 			<img class="logo" src="templates/strapquery/img/logo.png">
 			</div>
-			<div id="test"></div>
-			<div id="load-wrapper">
-				<h3 class="load-placeholder">Loading data...</h3>
-				<div class="spinner">
-		      <div class="rect1"></div>
-		      <div class="rect2"></div>
-		      <div class="rect3"></div>
-		      <div class="rect4"></div>
-		      <div class="rect5"></div>
-		    </div>
-	  	</div>
-			<div id="slide-wrapper">
-				<div class="row">
-					<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-						<div class="content">
-							<div class="well well-sm"><h3 id="playername">Nickname</h3></div>
-							<img class="gear" src="templates/strapquery/img/gear.png">
-							<img class="avatar" id="avatar" src="http://media.steampowered.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg">
-							<p class="downloading">Downloading... 45%</p>
-							<p class="downloading file">materials/models/player/something/something.vtf</p>
-							<div class="progress progress-striped active">
-							  <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%"></div>
-							</div>
-							<div class="row">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-user"></span></h3></div>
-								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right"><h3 class="grid-text right" id="steamid">STEAM_0:0:123456</h3></div>
-							</div>
-							<div class="row">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-usd"></span></h3></div>
-								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right"><h3 class="grid-text right" id="darkrp">455</h3></div>
-							</div>
-							<div class="row">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left bg-end-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-unchecked"></span></h3></div>
-								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right bg-end-right"><h3 class="grid-text right" id="pointshop">1228</h3></div>
-							</div>
+			<div class="row">
+				<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+					<div class="content">
+						<div class="well well-sm"><h3 id="playername"><em>Loading data...</em></h3></div>
+						<img class="gear" src="templates/strapquery/img/gear.png">
+						<img class="avatar" id="avatar" src="templates/strapquery/img/unknown_avatar.jpg">
+						<p id="status" class="status"></p>
+						<p id="file" class="file"></p>
+						<div class="progress progress-striped active">
+						  <div id="progress" class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-user"></span></h3></div>
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right"><h3 class="grid-text right" id="steamid"><em>Loading...</em></h3></div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-usd"></span></h3></div>
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right"><h3 class="grid-text right" id="darkrp"><em>Loading...</em></h3></div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left bg-end-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-unchecked"></span></h3></div>
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right bg-end-right"><h3 class="grid-text right" id="pointshop"><em>Loading...</em></h3></div>
 						</div>
 					</div>
-					<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="right">
-						<div class="content">
-							<div class="well well-sm"><h3 id="mapname">rp_downtown_evilmelon_v1</h3></div>
-							<img class="server-map-image" src="http://image.www.gametracker.com/images/maps/160x120/garrysmod/rp_downtown_evilmelon_v1.jpg">
-							<p class="server-name" id="servername">Something Sandbox Server - |Custom|Stuffs|Etc</p>
-							<div class="row">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-globe"></span></h3></div>
-								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right"><h3 class="grid-text right" id="players">10/24</h3></div>
-							</div>
-							<div class="row">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-download"></span></h3></div>
-								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right"><h3 class="grid-text right">422/1,024</h3></div>
-							</div>
-							<div class="row">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-signal"></span></h3></div>
-								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right"><h3 class="grid-text right" id="ip">123.456.78.9:27015</h3></div>
-							</div>
-							<div class="row">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left bg-end-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-play-circle"></span></h3></div>
-								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right bg-end-right"><h3 class="grid-text right" id="gamemode">DarkRP</h3></div>
-							</div>
+				</div>
+				<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" id="right">
+					<div class="content">
+						<div class="well well-sm"><h3 id="mapname"></h3></div>
+						<img id="mapimage" class="server-map-image" src="templates/strapquery/img/unknown_map.jpg">
+						<p class="server-name" id="servername"></p>
+						<div class="row">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-globe"></span></h3></div>
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right"><h3 class="grid-text right clean" id="maxplayers">0</h3><h3 class="grid-text right clean">/</h3><h3 class="grid-text right clean" id="players">0</h3></div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-download"></span></h3></div>
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right"><h3 class="grid-text right clean" id="filestotal">0</h3><h3 class="grid-text right clean">/</h3><h3 class="grid-text right clean" id="filesneeded">0</h3></div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-signal"></span></h3></div>
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right"><h3 class="grid-text right" id="ip"><em>Loading...</em></h3></div>
+						</div>
+						<div class="row">
+							<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-left bg-end-left"><h3 class="grid-text left"><span class="glyphicon glyphicon-play-circle"></span></h3></div>
+							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bg-right bg-end-right"><h3 class="grid-text right" id="gamemode"><em>Loading...</em></h3></div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- jQuery -->
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<!-- Bootstrap -->
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-		<!-- OpenLoad -->
-		<script src="src/js/openload.js"></script>
 	</body>
 </html>

@@ -70,7 +70,7 @@ body {
 .grid-text {
 	padding:0;
 	margin:0;
-	
+	display:inline;
 }
 
 .grid-text.left {
@@ -79,7 +79,13 @@ body {
 
 .grid-text.right {
 	text-align:right;
-	padding-bottom:2px;
+	padding-bottom:3px;
+	float:right;
+}
+
+.grid-text.right.clean {
+	padding:inherit, 0;
+	margin:inherit, 0;
 }
 
 #float-left {
@@ -115,11 +121,11 @@ body {
 	bottom:0;
 }
 
-.downloading {
+.status {
 	margin:0 0 0 5px;
 }
 
-.downloading.file {
+.file {
 	word-wrap:break-word;
 	font-size:12px;
 	font-style:italic;
@@ -150,10 +156,6 @@ body {
   #right {
     display:none;
   }
-}
-
-#slide-wrapper {
-	display:none;
 }
 
 .load-placeholder {

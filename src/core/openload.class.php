@@ -85,7 +85,6 @@ class OpenLoad {
 		$res = $this->fetch_steam_data();
 		$array['playername'] = $res['playername'];
 		$array['avatar'] = $res['avatar'];
-		$array['mapname'] = $this->mapname;
 		$array['mapimage'] = $this->get_map_icon();
 		if($this->mysqli) {
 			foreach($this->methods as $method => $bool) {
@@ -101,7 +100,8 @@ class OpenLoad {
 	 * @return Integer
 	 */
 	public function get_cur_srv_ply() {
-		return count($this->sq->GetPlayers());
+		$players = $this->sq->GetPlayers();
+		return count($players);
 	}
 
 	/**
@@ -109,10 +109,10 @@ class OpenLoad {
 	 */
 	public function make_ids() {
 		$authserver = bcsub( $this->communityid, '76561197960265728' ) & 1;
-  	$authid = ( bcsub( $this->communityid, '76561197960265728' ) - $authserver ) / 2;
-  	$steamid = "STEAM_0:$authserver:$authid";
-  	$this->steamid = $steamid;
-  	$this->uniqueid = sprintf("%u\n", crc32("gm_".$this->steamid."_gm"));
+		$authid = ( bcsub( $this->communityid, '76561197960265728' ) - $authserver ) / 2;
+		$steamid = "STEAM_0:$authserver:$authid";
+		$this->steamid = $steamid;
+		$this->uniqueid = sprintf("%u\n", crc32("gm_".$this->steamid."_gm"));
 	}
 
 	/**
@@ -154,8 +154,8 @@ class OpenLoad {
 		$apiurl = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=$this->steam_api_key&steamids=$this->communityid";
 		$res = json_decode(file_get_contents($apiurl), true);
 		$array['playername'] = $res["response"]["players"][0]["personaname"];
-  	$array['avatar'] = $res["response"]["players"][0]["avatarfull"];
-  	return $array;
+ 		$array['avatar'] = $res["response"]["players"][0]["avatarfull"];
+ 		return $array;
 	}
 
 	/**
@@ -165,11 +165,11 @@ class OpenLoad {
 	 */
 	public function get_map_icon() {
 		$buildurl = "http://image.www.gametracker.com/images/maps/160x120/garrysmod/$this->mapname.jpg";
-		if(file_get_contents($buildurl) === true) {
-			return $buildurl;
+		if(file_get_contents($buildurl) === false) {
+			return "https://raw.githubusercontent.com/Svenskunganka/OpenLoad/master/templates/strapquery/img/unknown_map.jpg";
 		}
 		else {
-			return "img/unknown_map.jpg";
+			return $buildurl;
 		}
 	}
 }

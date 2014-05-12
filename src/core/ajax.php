@@ -16,12 +16,9 @@ require '../lib/SourceQuery/SourceQuery.class.php';
 require 'openload.class.php';
 
 if(!empty($_POST['args'])) {
-	$args = explode("#", $_POST['args']);
-	$communityid = $args[0];
-	$mapname = $args[1];
-	$ip = explode(":", $args[2]);
-	$server_ip = $ip[0];
-	$server_port = $ip[1];
+	$args = json_decode($_POST['args'], 1);
+	$communityid = $args['steamid'];
+	$mapname = $args['mapname'];
 	$sq = new SourceQuery();
 	$sq->Connect($server_ip, $server_port);
 	if($db_data && $mysqli) {
