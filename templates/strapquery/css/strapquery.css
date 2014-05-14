@@ -83,6 +83,16 @@ body {
 	float:right;
 }
 
+.grid-text.right.colinfo {
+	text-align:left;
+	float:left;
+	font-size:18px;
+	font-weight:600;
+	color:#999;
+	padding-top:3px;
+	padding-bottom:0;
+}
+
 .grid-text.right.clean {
 	padding:inherit, 0;
 	margin:inherit, 0;
