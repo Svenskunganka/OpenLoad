@@ -9,10 +9,23 @@
  ***/
 
 function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode) {
+	var gamemodes = {}
+	gamemodes['terrortown'] = "TTT";
+	gamemodes['sandbox'] = "Sandbox";
+	gamemodes['darkrp'] = "DarkRP";
+	gamemodes['murder'] = "Murder";
+	gamemodes['cinema'] = "Cinema";
+	gamemodes['prop_hunt'] = "Prop Hunt";
+	gamemodes['deathrun'] = "Deathrun";
+	gamemodes['jailbreak'] = "Jailbreak";
+
   // Updating parameters that does not require back-end interaction.
   $('#servername').html(servername);
   $('#mapname').html(mapname);
   $('#maxplayers').html(maxplayers);
+  if(gamemode in gamemodes) {
+  	gamemode = gamemodes[gamemode];
+  }
   $('#gamemode').html(gamemode);
 
   // Packing parameters into JSON data
