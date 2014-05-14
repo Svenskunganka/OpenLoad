@@ -11,7 +11,7 @@
 
 if(!empty($_GET['template'])) {
 	include 'src/config/template.list.php';
-  $template = $_GET['template'];
+	$template = $_GET['template'];
 	if(array_search($template, $templates) === false) {
 		$template = array_rand($templates); // Someone specified a template that doesn't exist! So let's give them a random one!
 	}
