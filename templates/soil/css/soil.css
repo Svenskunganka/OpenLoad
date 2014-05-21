@@ -1,0 +1,215 @@
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+
+h1, h3, p, table {
+	margin:0;
+	color: rgba(0, 0, 0, 1);
+}
+
+html, body {
+	height:100%;
+}
+
+.content {
+	font-family: 'Montserrat', sans-serif;
+	width:1100px;
+	background:rgba(255, 255, 255, 0.7);
+	overflow:hidden;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:10px;
+	display:block;
+	text-align:center;
+	color:#c9c9c9;
+	box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+}
+
+.title {
+	opacity:1;
+	font-size:28px;
+	font-weight:700;
+}
+
+.box-title {
+	margin-bottom:10px;
+	font-size:24px;
+	font-weight:700;
+}
+
+.title-bg {
+	height:80px;
+	background-image:url("../img/title_pattern.png");
+	background-repeat:repeat;
+	opacity:0.4;
+	box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+	padding:22px 0;
+	margin-bottom:20px;
+}
+
+.playerinfo {
+	float:left;
+	display:block;
+	width:40%;
+}
+
+.rules {
+	float:right;
+	text-align:left;
+	display:block;
+	width:50%;
+}
+
+.align-right {
+	text-align:left;
+}
+
+.icon {
+	height:24px;
+	width:24px;
+}
+
+table>tbody>tr>td {
+	border:none;
+	font-size:18px;
+	font-weight:700;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {
+	background:rgba(214, 214, 214, 0.4);
+}
+
+.muted {
+	color:#A8A8A8;
+	font-weight:700;
+	text-align:right;
+}
+
+.loading {
+	clear:both;
+	text-align:center;
+}
+
+.progress-bar {
+	background-color:#9537DB;
+}
+
+.progress {
+	border-radius:0;
+	margin-bottom:0;
+	background:none;
+	webkit-box-shadow:none;
+	box-shadow:none;
+	height:20px;
+}
+
+.avatar {
+	width: 184px;
+	height: 184px;
+	border-radius: 150px;
+	-webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
+	display:none;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:10px;
+	box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	filter: alpha(opacity=70);
+	-moz-opacity:0.7;
+	-khtml-opacity: 0.7;
+	opacity: 0.7;
+}
+
+#video_background {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	min-width: 100%;
+	min-height: 100%;
+	width: auto;
+	height: auto;
+	z-index: -1000;
+	overflow: hidden;
+}
+
+.spinner {
+	width: 184px;
+	height: 184px;
+	position: relative;
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top: 10px;
+}
+
+.double-bounce1, .double-bounce2 {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	background-color: white;
+	opacity: 0.6;
+	position: absolute;
+	top: 0;
+	left: 0;
+	
+	-webkit-animation: bounce 2.0s infinite ease-in-out;
+	animation: bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+	-webkit-animation-delay: -1.0s;
+	animation-delay: -1.0s;
+}
+
+@-webkit-keyframes bounce {
+	0%, 100% { -webkit-transform: scale(0.0) }
+	50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bounce {
+	0%, 100% { 
+		transform: scale(0.0);
+		-webkit-transform: scale(0.0);
+	} 50% { 
+		transform: scale(1.0);
+		-webkit-transform: scale(1.0);
+	}
+}
+
+@media (max-width:1200px) {
+	.content {
+		width:800px;
+	}
+	.playerinfo {
+		width:40%;
+	}
+	.rules {
+		width:50%;
+	}
+}
+
+@media (max-width:800px) {
+	.content {
+		width:750px;
+	}
+	.playerinfo {
+		width:40%;
+	}
+	.rules {
+		width:50%;
+	}
+}
+
+@media (max-height:700px) {
+	.avatar, .spinner {
+		display:none;
+	}
+	.content {
+		margin-top:10px;
+	}
+}
