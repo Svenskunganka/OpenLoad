@@ -14,7 +14,8 @@ $templates = array(
 	"query string" => "directory name",
 	"query string" => "directory name" etc
 */
-	"strapquery" => "strapquery"
+	"strapquery" => "strapquery",
+	"soil" => "soil"
 	);
 
 ?>
