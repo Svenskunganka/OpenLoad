@@ -52,6 +52,12 @@ function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemo
       });
       $('#mapimage').attr('src', response['mapimage']);
       $('#avatar').attr('src', response['avatar']);
+      $.ajax({
+      	type: "POST",
+      	url: "src/core/ajax.php",
+      	data: {args: json, cache: "true"},
+      	cache: false,
+      });
     },
     complete: function() {
       // Checking if ol_end function is defined, and executes if so.

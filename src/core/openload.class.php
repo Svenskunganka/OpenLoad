@@ -58,10 +58,18 @@ class OpenLoad {
 	private $mapname;
 
 	/**
-	 * Simple OOP
-	 *
-	 * @param $db_data Boolean
-	 * @param $mysqli Object / Boolean
+	 * Holds the cache directory
+	 */
+	const CACHE_DIR = "../../cache/";
+
+	/**
+	 * Sets parameters
+	 * @param object  $sq            Points to the SourceQuery object
+	 * @param integer $communityid   Holds the Steam64 ID
+	 * @param integer $steam_api_key Holds the Steam API key set in the config.inc.php file
+	 * @param string  $mapname       The current map name
+	 * @param object  $mysqli        Points to the MySQLi connection object
+	 * @param array   $methods       Holds the methods array.
 	 */
 	public function __construct($sq, $communityid, $steam_api_key, $mapname, $mysqli = false, $methods = false) {
 		if($mysqli) { $this->mysqli = $mysqli; }
@@ -74,17 +82,23 @@ class OpenLoad {
 
 	/**
 	 * Structures the entire result set and returns it as an array.
-	 *
-	 * @return $array Array
+	 * @return array
 	 */
 	public function make() {
 		$array = array();
 		$this->make_ids();
 		$array['steamid'] = $this->steamid;
 		$array['players'] = $this->get_cur_srv_ply();
-		$res = $this->fetch_steam_data();
-		$array['playername'] = $res['playername'];
-		$array['avatar'] = $res['avatar'];
+		$cache = $this->get_cache();
+		if($cache == false) {
+			$res = $this->fetch_steam_data();
+			$array['playername'] = $res['playername'];
+			$array['avatar'] = $res['avatar'];
+			$this->write_cache($array['playername'], $array['avatar']);
+		}
+		else {
+			$array = array_merge($array, $cache);
+		}	
 		$array['mapimage'] = $this->get_map_icon();
 		if($this->mysqli) {
 			foreach($this->methods as $method => $bool) {
@@ -94,10 +108,15 @@ class OpenLoad {
 		return $array;
 	}
 
+	public function cache() {
+		$this->make_ids();
+		$res = $this->fetch_steam_data();
+		$this->write_cache($res['playername'], $res['avatar']);
+	}
+
 	/**
 	 * Fetches the servers current amount of players.
-	 *
-	 * @return Integer
+	 * @return integer
 	 */
 	public function get_cur_srv_ply() {
 		$players = $this->sq->GetPlayers();
@@ -106,6 +125,7 @@ class OpenLoad {
 
 	/**
 	 * Calculates SteamID and UniqueID out of CommunityID.
+	 * @return none
 	 */
 	public function make_ids() {
 		$authserver = bcsub( $this->communityid, '76561197960265728' ) & 1;
@@ -117,11 +137,8 @@ class OpenLoad {
 
 	/**
 	 * Fetches player wallets for both DarkRP and Pointshop
-	 *
 	 * @param $type String
-	 *
-	 * @return $wallet Integer
-	 * @return NULL (On failure)
+	 * @return integer || boolean
 	 */
 	public function fetch_wallet($type) {
 		if($type == "darkrp") {
@@ -141,14 +158,14 @@ class OpenLoad {
 		}
 		else {
 			$stmt->close();
-			return "NULL";
+			return false;
 		}
 	}
 
 	/**
 	 * Fetches player name and avatar through Steam API
 	 *
-	 * @return $array Array
+	 * @return array
 	 */
 	public function fetch_steam_data() {
 		$apiurl = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=$this->steam_api_key&steamids=$this->communityid";
@@ -160,18 +177,63 @@ class OpenLoad {
 
 	/**
 	 * Gets a map icon from GameTrackers maps database.
-	 *
-	 * @return $buildurl String
+	 * @return string
 	 */
 	public function get_map_icon() {
-		$buildurl = "http://image.www.gametracker.com/images/maps/160x120/garrysmod/$this->mapname.jpg";
-		if(file_get_contents($buildurl) === false) {
-			return "https://raw.githubusercontent.com/Svenskunganka/OpenLoad/master/templates/strapquery/img/unknown_map.jpg";
+		if(ini_get("allow_url_fopen") == "true") {
+			$buildurl = "http://image.www.gametracker.com/images/maps/160x120/garrysmod/$this->mapname.jpg";
+			$headers = get_headers($url);
+			$headers = substr($headers[0], 9, 3);
+			if($headers != "404") {
+				if(file_get_contents($buildurl) === false) {
+					return "https://raw.githubusercontent.com/Svenskunganka/OpenLoad/master/templates/strapquery/img/unknown_map.jpg";
+				}
+				else {
+					return $buildurl;
+				}
+			}
+			else {
+				return "https://raw.githubusercontent.com/Svenskunganka/OpenLoad/master/templates/strapquery/img/unknown_map.jpg";
+			}
 		}
 		else {
-			return $buildurl;
+			return "https://raw.githubusercontent.com/Svenskunganka/OpenLoad/master/templates/strapquery/img/unknown_map.jpg";
+		}
+	}
+
+	/**
+	 * Gets player Steam info from cache if it exists.
+	 * @return array || boolean
+	 */
+	public function get_cache() {
+		$cache_file = self::CACHE_DIR.$this->communityid;
+		if(file_exists($cache_file)) {
+				$contents = file_get_contents(self::CACHE_DIR.$this->communityid);
+				$contents = explode(PHP_EOL, $contents);
+				$array['playername'] = $contents[0];
+				$array['avatar'] = $contents[1];
+				return $array;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * Writes Steam info cache to file
+	 * @param  string $playername Steam profile name of player
+	 * @param  string $avatar     Steam Avatar URL
+	 * @return boolean
+	 */
+	public function write_cache($playername, $avatar) {
+		$cache_file = self::CACHE_DIR.$this->communityid;
+		$contents = $playername.PHP_EOL.$avatar;
+		if(file_put_contents($cache_file, $contents) === false) {
+			return false;
+		}
+		else {
+			return true;
 		}
 	}
 }
-
 ?>

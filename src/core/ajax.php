@@ -19,20 +19,25 @@ if(!empty($_POST['args'])) {
 	$args = json_decode($_POST['args'], 1);
 	$communityid = $args['steamid'];
 	$mapname = $args['mapname'];
-	$sq = new SourceQuery();
-	$sq->Connect($server_ip, $server_port);
-	if($db_data && $mysqli) {
-		$ol = new OpenLoad($sq, $communityid, $steam_api_key, $mapname, $mysqli, $db_types);
-		$ret = $ol->make();
-		$mysqli->close();
+	if(!empty($_POST['cache']) && $_POST['cache'] == "true") {
+		$ol = new OpenLoad($sq, $communityid, $steam_api_key, $mapname);
+		$ol->cache();
 	}
 	else {
-		$ol = new OpenLoad($sq, $communityid, $steam_api_key, $mapname);
-		$ret = $ol->make();
+		$sq = new SourceQuery();
+		$sq->Connect($server_ip, $server_port);
+		if($db_data && $mysqli) {
+			$ol = new OpenLoad($sq, $communityid, $steam_api_key, $mapname, $mysqli, $db_types);
+			$ret = $ol->make();
+			$mysqli->close();
+		}
+		else {
+			$ol = new OpenLoad($sq, $communityid, $steam_api_key, $mapname);
+			$ret = $ol->make();
+		}
 		$sq->Disconnect();
+		$ret['ip'] = $server_ip.':'.$server_port;
+		echo json_encode($ret); // Output JSON data.
 	}
-	$sq->Disconnect();
-	$ret['ip'] = $server_ip.':'.$server_port;
-	echo json_encode($ret); // Output JSON data.
 }
 ?>
