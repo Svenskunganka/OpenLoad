@@ -180,9 +180,9 @@ class OpenLoad {
 	 * @return string
 	 */
 	public function get_map_icon() {
-		if(ini_get("allow_url_fopen") == "true") {
+		if(ini_get("allow_url_fopen") == 1) {
 			$buildurl = "http://image.www.gametracker.com/images/maps/160x120/garrysmod/$this->mapname.jpg";
-			$headers = get_headers($url);
+			$headers = get_headers($buildurl);
 			$headers = substr($headers[0], 9, 3);
 			if($headers != "404") {
 				if(file_get_contents($buildurl) === false) {
