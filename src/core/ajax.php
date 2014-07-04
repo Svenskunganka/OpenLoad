@@ -18,6 +18,7 @@ require 'openload.class.php';
 if(!empty($_POST['args'])) {
 	$args = json_decode($_POST['args'], 1);
 	$communityid = $args['steamid'];
+	$server_id = (!empty($_GET['sid']) ? $_GET['sid'] : 1);
 	$mapname = $args['mapname'];
 	if(!empty($_POST['cache']) && $_POST['cache'] == "true") {
 		$ol = new OpenLoad($sq, $communityid, $steam_api_key, $mapname);
@@ -25,7 +26,7 @@ if(!empty($_POST['args'])) {
 	}
 	else {
 		$sq = new SourceQuery();
-		$sq->Connect($server_ip, $server_port);
+		$sq->Connect($servers[$sid]["ip"], $servers[$sid]["port"]);
 		if($db_data && $mysqli) {
 			$ol = new OpenLoad($sq, $communityid, $steam_api_key, $mapname, $mysqli, $db_types);
 			$ret = $ol->make();
@@ -36,7 +37,7 @@ if(!empty($_POST['args'])) {
 			$ret = $ol->make();
 		}
 		$sq->Disconnect();
-		$ret['ip'] = $server_ip.':'.$server_port;
+		$ret['ip'] = $servers[$sid]["ip"].':'.$servers[$sid]["port"];
 		echo json_encode($ret); // Output JSON data.
 	}
 }

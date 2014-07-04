@@ -13,13 +13,29 @@
  * General Configuration
  */
 $steam_api_key = "KEYGOESHERE"; // Get a Steam API Key here: http://steamcommunity.com/dev/apikey
-$server_ip = "123.456.78.9"; // Your server IP-Address
-$server_port = 27015; // Your server port
+
+
+/**
+ * Server configuration (Simplified setup)
+ *
+ * These will be specified in your URL:
+ * e.g index.php?template=soil&sid=1 where sid=1 is the $servers[1] in this configuration
+ */
+$servers = array();
+// Server 1
+$servers[1]["ip"] = "123.456.78.9";
+$servers[1]["port"] = 27015;
+/* Server 2
+$servers[2]["ip"] = "123.456.78.9";
+$servers[2]["port"] = 27020;
+*/
+
 
 /**
  * MySQL Database configuration.
  * If your server has DarkRP or Pointshop installed USING MySQL over pdata/SQLite, you can use this to fetch players' DarkRP Money and/or Pointshop Points.
  * If you only use either Pointshop or DarkRP, you have to specify that in the configuration below.
+ * NOTE: If you use both DarkRP and Pointshop with MySQL, make sure their tables are in the same database!
  */
 $db_data = false; // Enable MySQL support? If false, ignore everything under this line.
 if($db_data) {
