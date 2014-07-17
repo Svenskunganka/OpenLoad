@@ -18,7 +18,7 @@ require 'openload.class.php';
 if(!empty($_POST['args'])) {
 	$args = json_decode($_POST['args'], 1);
 	$communityid = $args['steamid'];
-	$server_id = (!empty($_GET['sid']) ? $_GET['sid'] : 1);
+	$sid = (!empty($_GET['sid']) ? $_GET['sid'] : 1);
 	$mapname = $args['mapname'];
 	if(!empty($_POST['cache']) && $_POST['cache'] == "true") {
 		$ol = new OpenLoad($sq, $communityid, $steam_api_key, $mapname);
