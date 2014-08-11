@@ -101,7 +101,6 @@ class OpenLoad {
 		}
 		$array['mapimage'] = $this->get_map_icon();
 		if($this->pdo) {
-			print_r($this->methods);
 			foreach($this->methods as $method => $bool) {
 				if($bool) { $array[$method] = $this->fetch_wallet($method); }
 			}
