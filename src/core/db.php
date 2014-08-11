@@ -11,10 +11,7 @@
  ***/
 
 if($db_data) {
-	$mysqli = new Mysqli($db_host, $db_user, $db_pass, $db_database, $db_port);
-	if ($mysqli->connect_errno) {
-		$errors[] = 'Could not connect to MySQL Database. Error ('.$mysqli->connect_errno.') '.$mysqli->connect_error;
-		$mysqli = false; // Let's continiue without DB connection, but throw an error.
-	}
+	$pdo = new PDO("mysql:host=$db_host;dbname=$db_database", $db_user, $db_pass);
+	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 ?>

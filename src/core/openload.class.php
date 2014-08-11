@@ -12,11 +12,11 @@
 class OpenLoad {
 
 	/**
-	 * Points to the Mysqli connection
+	 * Points to the PDO Oject
 	 *
-	 * @var $mysqli Object
+	 * @var $pdo Object
 	 */
-	protected $mysqli;
+	protected $pdo;
 
 	/**
 	 * Points to the Source Query object
@@ -68,11 +68,11 @@ class OpenLoad {
 	 * @param integer $communityid   Holds the Steam64 ID
 	 * @param integer $steam_api_key Holds the Steam API key set in the config.inc.php file
 	 * @param string  $mapname       The current map name
-	 * @param object  $mysqli        Points to the MySQLi connection object
+	 * @param object  $pdo       Points to the PDO connection object
 	 * @param array   $methods       Holds the methods array.
 	 */
-	public function __construct($sq, $communityid, $steam_api_key, $mapname, $mysqli = false, $methods = false) {
-		if($mysqli) { $this->mysqli = $mysqli; }
+	public function __construct($sq, $communityid, $steam_api_key, $mapname, $pdo = false, $methods = false) {
+		if($pdo) { $this->pdo = $pdo; }
 		if($methods) { $this->methods = $methods; }
 		$this->sq = $sq;
 		$this->steam_api_key = $steam_api_key;
@@ -98,9 +98,10 @@ class OpenLoad {
 		}
 		else {
 			$array = array_merge($array, $cache);
-		}	
+		}
 		$array['mapimage'] = $this->get_map_icon();
-		if($this->mysqli) {
+		if($this->pdo) {
+			print_r($this->methods);
 			foreach($this->methods as $method => $bool) {
 				if($bool) { $array[$method] = $this->fetch_wallet($method); }
 			}
@@ -142,23 +143,20 @@ class OpenLoad {
 	 */
 	public function fetch_wallet($type) {
 		if($type == "darkrp") {
-			$query = "SELECT `wallet` FROM `darkrp_player` WHERE uid=? LIMIT 1";
+			$query = "SELECT `wallet` FROM `darkrp_player` WHERE `uid`=:uid LIMIT 1";
 		}
 		elseif ($type == "pointshop") {
-			$query = "SELECT `points` FROM `pointshop_data` WHERE uniqueid=? LIMIT 1";
+			$query = "SELECT `points` FROM `pointshop_data` WHERE `uniqueid`=:uid LIMIT 1";
 		}
-		$stmt = $this->mysqli->stmt_init();
-		if($stmt->prepare($query)) {
-			$stmt->bind_param("i", $this->uniqueid);
-			$stmt->execute();
-			$stmt->bind_result($wallet);
-			$stmt->fetch();
-			$stmt->close();
-			return $wallet;
+		try {
+			$stmt = $this->pdo->prepare($query);
+			$stmt->execute(array(":uid" => $this->uniqueid));
+			$result = $stmt->fetchColumn();
+			$stmt->closeCursor();
+			return $result;
 		}
-		else {
-			$stmt->close();
-			return false;
+		catch (PDOException $e) {
+			return $e->getMessage();
 		}
 	}
 

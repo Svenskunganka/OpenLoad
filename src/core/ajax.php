@@ -27,10 +27,10 @@ if(!empty($_POST['args'])) {
 	else {
 		$sq = new SourceQuery();
 		$sq->Connect($servers[$sid]["ip"], $servers[$sid]["port"]);
-		if($db_data && $mysqli) {
-			$ol = new OpenLoad($sq, $communityid, $steam_api_key, $mapname, $mysqli, $db_types);
+		if($db_data && $pdo) {
+			$ol = new OpenLoad($sq, $communityid, $steam_api_key, $mapname, $pdo, $db_types);
 			$ret = $ol->make();
-			$mysqli->close();
+			$pdo = null;
 		}
 		else {
 			$ol = new OpenLoad($sq, $communityid, $steam_api_key, $mapname);
