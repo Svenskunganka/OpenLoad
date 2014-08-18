@@ -16,7 +16,7 @@ class OpenLoad {
 	 *
 	 * @var $pdo Object
 	 */
-	protected $pdo;
+	private $pdo;
 
 	/**
 	 * Points to the Source Query object

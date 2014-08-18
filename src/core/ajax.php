@@ -1,6 +1,6 @@
 <?php
 /***
- * AJAX file. This is where are the AJAX calls goes.
+ * AJAX file. This is where all the AJAX calls goes.
  *
  * Project: OpenLoad
  * Author: Svenskunganka
@@ -18,7 +18,7 @@ require 'openload.class.php';
 if(!empty($_POST['args'])) {
 	$args = json_decode($_POST['args'], 1);
 	$communityid = $args['steamid'];
-	$sid = (!empty($_GET['sid']) ? $_GET['sid'] : 1);
+	$sid = (!empty($_POST['sid']) ? $_POST['sid'] : 1);
 	$mapname = $args['mapname'];
 	if(!empty($_POST['cache']) && $_POST['cache'] == "true") {
 		$ol = new OpenLoad($sq, $communityid, $steam_api_key, $mapname);
