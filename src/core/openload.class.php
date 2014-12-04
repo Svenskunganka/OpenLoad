@@ -30,10 +30,12 @@ class OpenLoad {
 	 *
 	 * @var $communityid Integer
 	 * @var $uniqueid Integer
+	 * @var $arcid String
 	 * @var $steamid String Public
 	 */
 	private $communityid;
 	private $uniqueid;
+	private $arcid;
 	public $steamid;
 
 	/**
@@ -102,7 +104,7 @@ class OpenLoad {
 		$array['mapimage'] = $this->get_map_icon();
 		if($this->pdo) {
 			foreach($this->methods as $method => $bool) {
-				if($bool) { $array[$method] = $this->fetch_wallet($method); }
+				if($bool) { $array[$method] = $this->fetch_data($method); }
 			}
 		}
 		return $array;
@@ -133,6 +135,7 @@ class OpenLoad {
 		$steamid = "STEAM_0:$authserver:$authid";
 		$this->steamid = $steamid;
 		$this->uniqueid = sprintf("%u\n", crc32("gm_".$this->steamid."_gm"));
+		$this->arcid = "account_" . str_replace(":", "_", strtolower($this->steamid));
 	}
 
 	/**
@@ -140,16 +143,24 @@ class OpenLoad {
 	 * @param $type String
 	 * @return integer || boolean
 	 */
-	public function fetch_wallet($type) {
-		if($type == "darkrp") {
-			$query = "SELECT `wallet` FROM `darkrp_player` WHERE `uid`=:uid LIMIT 1";
-		}
-		elseif ($type == "pointshop") {
-			$query = "SELECT `points` FROM `pointshop_data` WHERE `uniqueid`=:uid LIMIT 1";
+	public function fetch_data($type) {
+		switch($type) {
+			case "darkrp":
+				$query = "SELECT `wallet` FROM `darkrp_player` WHERE `uid`=:uid LIMIT 1";
+				$params = array(":uid" => $this->uniqueid);
+				break;
+			case "pointshop":
+				$query = "SELECT `points` FROM `pointshop_data` WHERE `uniqueid`=:uid LIMIT 1";
+				$params = array(":uid" => $this->uniqueid);
+				break;
+			case "arcbank":
+				$query = "SELECT `money` FROM `arcbank_personal_account` WHERE `filename`=:uid LIMIT 1";
+				$params = array(":uid" => $this->arcid);
+				break;
 		}
 		try {
 			$stmt = $this->pdo->prepare($query);
-			$stmt->execute(array(":uid" => $this->uniqueid));
+			$stmt->execute($params);
 			$result = $stmt->fetchColumn();
 			$stmt->closeCursor();
 			return $result;

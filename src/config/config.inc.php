@@ -46,7 +46,8 @@ if($db_data) {
 	$db_database = "database"; // The name of your database.
 	$db_types = array(
 		"darkrp" => true, // true = enabled
-		"pointshop" => true // false = disabled
+		"pointshop" => true, // false = disabled
+		"arcbank" => false
 		);
 }
 ?>
