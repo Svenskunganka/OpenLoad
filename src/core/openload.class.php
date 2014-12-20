@@ -234,13 +234,15 @@ class OpenLoad {
 	 * @return boolean
 	 */
 	public function write_cache($playername, $avatar) {
-		$cache_file = self::CACHE_DIR.$this->communityid;
-		$contents = $playername.PHP_EOL.$avatar;
-		if(file_put_contents($cache_file, $contents) === false) {
-			return false;
-		}
-		else {
-			return true;
+		if ($playername) {
+			$cache_file = self::CACHE_DIR.$this->communityid;
+			$contents = $playername.PHP_EOL.$avatar;
+			if(file_put_contents($cache_file, $contents) === false) {
+				return false;
+			}
+			else {
+				return true;
+			}
 		}
 	}
 }
